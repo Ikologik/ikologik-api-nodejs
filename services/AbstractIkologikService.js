@@ -1,11 +1,10 @@
-
-import IkologikApiCredentials from "../IkologikApiCredentials.js";
-import axios from "axios";
-import IkologikException from "../IkologikException.js";
+const axios = require('axios');
+const IkologikException = require("../IkologikException");
+const IkologikApiCredentials = require("../IkologikApiCredentials");
 
 const jwtHelper = new IkologikApiCredentials();
 
-export default class AbstractIkologikService{
+class AbstractIkologikService{
     constructor(jwtHelper) {
         this.jwtHelper = jwtHelper;
     }
@@ -109,3 +108,5 @@ export default class AbstractIkologikService{
 
 
 }
+
+module.exports = AbstractIkologikService;

@@ -1,6 +1,7 @@
 
-export default class IkologikException extends Error{
+class IkologikException extends Error{
     constructor(message) {
         super(message);
     }
 }
+module.exports = IkologikException;

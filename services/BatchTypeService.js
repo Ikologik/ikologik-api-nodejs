@@ -1,10 +1,10 @@
-import IkologikApiCredentials from "../IkologikApiCredentials.js";
-import Search from "../domain/Search.js";
-import AbstractIkologikInstallationService from "./AbstractIkologikInstallationService.js";
+const IkologikApiCredentials = require("../IkologikApiCredentials");
+const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
+const Search = require("../domain/Search");
 
 const jwtHelper = new IkologikApiCredentials();
 
-export default class BatchTypeService extends  AbstractIkologikInstallationService{
+class BatchTypeService extends  AbstractIkologikInstallationService{
     constructor(jwtHelper) {
         super(jwtHelper);
     }
@@ -28,3 +28,5 @@ export default class BatchTypeService extends  AbstractIkologikInstallationServi
         }
     }
 }
+
+module.exports = BatchTypeService;

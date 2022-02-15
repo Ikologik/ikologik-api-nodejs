@@ -1,13 +1,12 @@
+const AbstractIkologikCustomerService = require("./AbstractIkologikCustomerService");
+const IkologikApiCredentials = require("../IkologikApiCredentials");
+const IkologikException = require("../IkologikException");
+const axios = require("axios");
 
-import IkologikApiCredentials from "../IkologikApiCredentials.js";
-import AbstractIkologikCustomerService from "./AbstractIkologikCustomerService.js";
-
-import axios from "axios";
-import IkologikException from "../IkologikException.js";
 
 const jwtHelper = new IkologikApiCredentials();
 
-export default class AbstractIkologikInstallationService extends AbstractIkologikCustomerService{
+class AbstractIkologikInstallationService extends AbstractIkologikCustomerService{
     constructor(jwtHelper) {
         super(jwtHelper);
         this.jwtHelper = jwtHelper;
@@ -101,3 +100,5 @@ export default class AbstractIkologikInstallationService extends AbstractIkologi
         }
     }
 }
+
+module.exports = AbstractIkologikInstallationService;

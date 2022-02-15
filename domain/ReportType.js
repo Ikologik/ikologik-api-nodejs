@@ -1,6 +1,6 @@
-import AbstractIkologikInstallationsObject from "./AbstractIkologikInstallationsObject.js";
+const AbstractIkologikInstallationsObject = require("./AbstractIkologikInstallationsObject");
 
-export default class ReportType extends AbstractIkologikInstallationsObject{
+class ReportType extends AbstractIkologikInstallationsObject{
     constructor(customer, installation) {
         super(customer, installation);
         this.type = null;
@@ -22,3 +22,5 @@ export default class ReportType extends AbstractIkologikInstallationsObject{
         this.notificationReceiversSendRequired = null;
     }
 }
+
+module.exports = ReportType;

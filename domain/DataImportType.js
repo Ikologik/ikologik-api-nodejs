@@ -1,6 +1,6 @@
-import AbstractIkologikInstallationsObject from "./AbstractIkologikInstallationsObject.js";
+import AbstractIkologikInstallationsObject from "./AbstractIkologikInstallationsObject";
 
-export default class DataImportType extends AbstractIkologikInstallationsObject{
+class DataImportType extends AbstractIkologikInstallationsObject{
     constructor(customer, installation){
         super(customer, installation);
         this.name = null;
@@ -11,13 +11,13 @@ export default class DataImportType extends AbstractIkologikInstallationsObject{
     }
 }
 
-export default class DataImportTypeMapping{
+class DataImportTypeMapping{
     constructor() {
         this.tags = {};
     }
 }
 
-export default class DataImportTypeMappingTag{
+class DataImportTypeMappingTag{
     constructor() {
         this.sourceId = null;
         this.sourceName = null;
@@ -26,3 +26,7 @@ export default class DataImportTypeMappingTag{
         this.tag = null;
     }
 }
+
+module.exports = DataImportType;
+module.exports = DataImportTypeMapping;
+module.exports = DataImportTypeMappingTag;

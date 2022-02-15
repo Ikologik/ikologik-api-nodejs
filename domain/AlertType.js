@@ -1,7 +1,6 @@
-import AbstractIkologikInstallationsObject from "./AbstractIkologikInstallationsObject.js";
+const AbstractIkologikInstallationsObject = require("./AbstractIkologikInstallationsObject");
 
-
-export default class AlertType extends AbstractIkologikInstallationsObject{
+class AlertType extends AbstractIkologikInstallationsObject{
     constructor(customer, installation) {
         super(customer, installation);
         this.severity = null;
@@ -22,3 +21,5 @@ export default class AlertType extends AbstractIkologikInstallationsObject{
         this.notificationMessageRepeat = null;
     }
 }
+
+module.exports = AlertType;

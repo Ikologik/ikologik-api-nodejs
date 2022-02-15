@@ -1,6 +1,6 @@
-import AbstractIkologikObject from "./AbstractIkologikObject.js";
+const AbstractIkologikObject = require("./AbstractIkologikObject");
 
-export default class TagAlertType extends AbstractIkologikObject{
+class TagAlertType extends AbstractIkologikObject{
     constructor() {
         super();
         this.meter = null;
@@ -20,3 +20,5 @@ export default class TagAlertType extends AbstractIkologikObject{
         this.notificationReceivers = null;
     }
 }
+
+module.exports = TagAlertType;

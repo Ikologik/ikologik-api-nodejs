@@ -1,8 +1,8 @@
-import axios from 'axios';
-import IkologikException from "./IkologikException.js";
-import https from "https";
+const axios = require('axios');
+const IkologikException = require('./IkologikException');
+const https = require('https');
 
- export default class IkologikApiCredentials {
+class IkologikApiCredentials {
      // jwt;
 
     constructor( url, username, password) {
@@ -69,4 +69,4 @@ import https from "https";
     }
 }
 
-
+module.exports = IkologikApiCredentials;

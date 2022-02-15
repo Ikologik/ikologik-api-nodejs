@@ -1,10 +1,10 @@
-import AbstractIkologikInstallationsObject from "../domain/AbstractIkologikInstallationsObject.js";
-import IkologikApiCredentials from "../IkologikApiCredentials.js";
-import AbstractIkologikInstallationService from "./AbstractIkologikInstallationService.js";
+const IkologikApiCredentials = require("../IkologikApiCredentials");
+const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
+
 
 const jwtHelper = new IkologikApiCredentials();
 
-export default class AlertService extends  AbstractIkologikInstallationService{
+class AlertService extends  AbstractIkologikInstallationService{
     constructor(jwtHelper) {
         super(jwtHelper);
     }
@@ -14,3 +14,5 @@ export default class AlertService extends  AbstractIkologikInstallationService{
         return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/alert`;
     }
 }
+
+module.exports = AlertService;

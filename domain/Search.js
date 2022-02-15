@@ -21,7 +21,7 @@ class SearchPagination{
     }
 }
 
-export default class Search{
+class Search{
     constructor() {
         this.filter = {};
         this.order = {};
@@ -63,3 +63,5 @@ export default class Search{
         this.pagination = new SearchPagination( page, size);
     }
 }
+
+module.exports = Search;

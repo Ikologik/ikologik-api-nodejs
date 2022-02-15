@@ -1,8 +1,10 @@
-import AbstractIkologikObject from "./AbstractIkologikObject.js";
+const AbstractIkologikObject = require("./AbstractIkologikObject");
 
-export default class AbstractIkologikCustomerObject extends AbstractIkologikObject {
+class AbstractIkologikCustomerObject extends AbstractIkologikObject {
     constructor(customer){
         super();
         this.customer = customer;
     }
 }
+
+module.exports = AbstractIkologikCustomerObject;

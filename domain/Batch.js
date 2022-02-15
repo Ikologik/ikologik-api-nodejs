@@ -1,6 +1,6 @@
-import AbstractIkologikInstallationsObject from "./AbstractIkologikInstallationsObject.js";
+const AbstractIkologikInstallationsObject = require("./AbstractIkologikInstallationsObject");
 
-export default class Batch extends AbstractIkologikInstallationsObject {
+class Batch extends AbstractIkologikInstallationsObject {
     constructor(customer, installation) {
         super(customer, installation);
         this.batchType = null;
@@ -14,7 +14,7 @@ export default class Batch extends AbstractIkologikInstallationsObject {
     }
 }
 
-export default class BatchField {
+class BatchField {
     constructor() {
         this.stringValue = null;
         this.booleanValue = null;
@@ -25,3 +25,6 @@ export default class BatchField {
         this.LookupListValue = null;
     }
 }
+
+module.exports = Batch;
+module.exports = BatchField;

@@ -1,8 +1,10 @@
-import AbstractIkologikInstallationsObject from "./AbstractIkologikInstallationsObject.js";
+const AbstractIkologikInstallationsObject = require("./AbstractIkologikInstallationsObject");
 
-export default class BatchType extends AbstractIkologikInstallationsObject{
+class BatchType extends AbstractIkologikInstallationsObject{
     constructor(customer, installation) {
         super(customer, installation);
         this.name = null;
     }
 }
+
+module.exports = BatchType;

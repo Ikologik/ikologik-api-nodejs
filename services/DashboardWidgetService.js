@@ -1,12 +1,11 @@
-import IkologikApiCredentials from "../IkologikApiCredentials.js";
-
-import axios from "axios";
-import AbstractIkologikInstallationService from "./AbstractIkologikInstallationService.js";
-import IkologikException from "../IkologikException.js";
+const IkologikApiCredentials = require("../IkologikApiCredentials");
+const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
+const IkologikException = require("../IkologikException");
+const axios = require("axios");
 
 const jwtHelper = new IkologikApiCredentials();
 
-export default class DashboardWidgetService extends AbstractIkologikInstallationService{
+ class DashboardWidgetService extends AbstractIkologikInstallationService{
     constructor(jwtHelper) {
         super(jwtHelper);
         this.jwtHelper = jwtHelper;
@@ -87,3 +86,5 @@ export default class DashboardWidgetService extends AbstractIkologikInstallation
         }
     }
 }
+
+module.exports = DashboardWidgetService;

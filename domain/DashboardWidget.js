@@ -1,6 +1,6 @@
-import AbstractIkologikInstallationsObject from "./AbstractIkologikInstallationsObject.js";
+const AbstractIkologikInstallationsObject = require("./AbstractIkologikInstallationsObject");
 
-export default class DashboardWidget extends AbstractIkologikInstallationsObject{
+class DashboardWidget extends AbstractIkologikInstallationsObject{
     constructor(customer, installation, dashboard) {
         super(customer, installation);
         this.dasboard = dashboard;
@@ -10,9 +10,13 @@ export default class DashboardWidget extends AbstractIkologikInstallationsObject
         this.parameters = {};
     }
 }
-export default class Parameter{
+
+class Parameter{
     constructor(key, value){
         this.key = key;
         this.value = value;
     }
 }
+
+module.exports = DashboardWidget;
+module.exports = Parameter;

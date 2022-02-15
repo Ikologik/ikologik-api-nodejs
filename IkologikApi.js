@@ -1,20 +1,21 @@
-import IkologikApiCredentials from "./IkologikApiCredentials.js";
-import AlertService from "./services/AlertService.js";
-import AlertTypeService from "./services/AlertTypeService.js";
-import BatchService from "./services/BatchService.js";
-import BatchTypeService from "./services/BatchTypeService.js";
-import DashboardService from "./services/DashboardService.js";
-import DashboardWidgetService from "./services/DashboardWidgetService.js";
-import DashboardWidgetTypeService from "./services/DashboardWidgetTypeService.js";
-import DataImportService from "./services/DataImportService.js";
-import DataImportTypeService from "./services/DataImportTypeService.js";
-import InstallationService from "./services/InstallationService.js";
-import ReportService from "./services/ReportService.js";
-import TagService from "./services/TagService.js";
-import TagAlertTypeService from "./services/TagAlertTypeService.js";
-import ReportTypeService from "./services/ReportTypeService.js";
+const IkologikApiCredentials = require("./IkologikApiCredentials");
+const AlertService = require("./services/AlertService");
+const AlertTypeService = require("./services/AlertTypeService");
+const BatchService = require("./services/BatchService");
+const BatchTypeService = require("./services/BatchTypeService");
+const DashboardService = require("./services/DashboardService");
+const DashboardWidgetService = require("./services/DashboardWidgetService");
+const DashboardWidgetTypeService = require("./services/DashboardWidgetTypeService");
+const DataImportService = require("./services/DataImportService");
+const DataImportTypeService = require("./services/DataImportTypeService");
+const InstallationService = require("./services/InstallationService");
+const ReportService = require("./services/ReportService");
+const ReportTypeService = require("./services/ReportTypeService");
+const TagService = require("./services/TagService");
+const TagAlertTypeService = require("./services/TagAlertTypeService");
 
-export default class IkologikApi {
+
+class IkologikApi {
     constructor(url, username, password) {
         this.apiCredentials = new IkologikApiCredentials(url, username, password);
         this.alert = new AlertService(this.apiCredentials);
@@ -33,3 +34,5 @@ export default class IkologikApi {
         this.tagAlertType = new TagAlertTypeService(this.apiCredentials);
     }
 }
+
+module.exports = IkologikApi;
