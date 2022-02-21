@@ -18,7 +18,7 @@ class AbstractIkologikCustomerService extends AbstractIkologikService{
         try{
             const response = await axios.get(this.getUrl(customer)+`/${id}`, { headers: await this.getHeaders()});
             if (response.status === 200){
-                const result = JSON.stringify(response.data);
+                const result = response.data;
                 return result;
             } else{
                 return new IkologikException ("Request returned status" + toString(response.status));
@@ -27,20 +27,35 @@ class AbstractIkologikCustomerService extends AbstractIkologikService{
             return new IkologikException("Error while getting customer with id: " +id);
         }
     }
-
-    async list(customer){
-        try{
-            const response = await axios.get(this.getUrl(customer), { headers : await this.getHeaders()});
-            if (response.status === 200){
-                const result = JSON.stringify(response.data);
+    async list(customer) {
+        try {
+            const response = await axios.get(this.getUrl(customer), {headers: await this.getHeaders()});
+            if (response.status === 200) {
+                const result = response.data;
                 return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
+            } else {
+                return new IkologikException("Request returned status" + toString(response.status));
             }
         } catch (e) {
             return new IkologikException("Error while listing customer");
         }
     }
+    // list(customer) {
+    //     return new Promise((resolve, reject) => {
+    //         this.getHeaders()
+    //             .then((headers) => {
+    //                 axios.get(this.getUrl(customer), {headers})
+    //                     .then((response) => {
+    //                         if (response.status === 200) {
+    //                             resolve(response.data);
+    //                         } else {
+    //                             reject('Request returned status' + toString(response.status));
+    //                         }
+    //                     }).catch(reject);
+    //             }).catch(reject);
+    //     });
+    // }
+
 
     async search(customer, search){
         try{

@@ -12,7 +12,7 @@ class ReportService extends  AbstractIkologikInstallationService{
 
     // CRUD actions
     getUrl(customer, installation, reportType){
-        return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/reporttype/${reportType}/report`;
+        return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/report`;
     }
 
     async create(customer, installation, reportType, obj){

@@ -1,6 +1,6 @@
 const IkologikApiCredentials = require("../IkologikApiCredentials");
-const AbstractIkologikService = require("./AbstractIkologikService");
 const Search = require("../domain/Search");
+const AbstractIkologikService = require("./AbstractIkologikService");
 
 const jwtHelper = new IkologikApiCredentials();
 

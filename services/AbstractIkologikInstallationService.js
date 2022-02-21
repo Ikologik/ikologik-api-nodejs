@@ -34,7 +34,6 @@ class AbstractIkologikInstallationService extends AbstractIkologikCustomerServic
             const response = await axios.get(this.getUrl(customer, installation), { headers : await this.getHeaders()})
             if (response.status === 200){
                 const result = response.data;
-
                 return result;
             } else{
                 return new IkologikException ("Request returned status" + toString(response.status));
