@@ -23,13 +23,13 @@ class SearchPagination{
 
 class Search{
     constructor() {
-        this.filter = {};
-        this.order = {};
+        this.filter = [];
+        this.order = [];
         this.pagination = new SearchPagination();
     }
 
     addFilter(filter_field, filter_type, filter_values){
-        this.filter.append(
+        this.filter.push(
             new SearchFilter(
                 filter_field,
                 filter_type,
@@ -39,8 +39,8 @@ class Search{
     }
 
     addMultipleFilters(filter){
-        for (const item in filter) {
-            this.filter.append(
+        for (const item of filter) {
+            this.filter.push(
                 new SearchFilter(
                     item[0],
                     item[1],
@@ -51,7 +51,7 @@ class Search{
     }
 
     addOrder(order_field, order_type){
-        this.order.append(
+        this.order.push(
             new SearchOrder(
                 order_field,
                 order_type

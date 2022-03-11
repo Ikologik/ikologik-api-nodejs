@@ -30,7 +30,7 @@ const jwtHelper = new IkologikApiCredentials();
         }
     }
 
-    async search(customer, installation, search){
+    async search(customer, installation, dashboard, search){
         try{
             const response = await axios.post(`${this.getUrl(customer, installation, dashboard)}/search`, search, {headers: await this.getHeaders()});
             if (response.status === 200){

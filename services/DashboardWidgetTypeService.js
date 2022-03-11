@@ -14,14 +14,14 @@ class DashboardWidgetTypeService extends  AbstractIkologikService{
         return `${this.jwtHelper.getUrl()}/api/v2/dashboardwidgettype`;
     }
 
-    getByName(name){
+    async getByName(name){
         const search = new Search();
         search.addFilter("name", "EQ", [name]);
         search.addOrder("name", "ASC");
         search.setPagination(0,1);
 
         // Query
-        const result = this.search(search);
+        const result = await this.search(search);
         if (result && result.length == 1 ){
             return result[0];
         }else{
@@ -29,14 +29,14 @@ class DashboardWidgetTypeService extends  AbstractIkologikService{
         }
     }
 
-    getByType(type){
+    async getByType(type){
         const search = new Search();
         search.addFilter("name", "EQ", [type]);
         search.addOrder("name", "ASC");
         search.setPagination(0,1);
 
         // Query
-        const result = this.search(search);
+        const result = await this.search(search);
         if (result && result.length == 1 ){
             return result[0];
         }else{

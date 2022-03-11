@@ -128,13 +128,13 @@ class DataImportService extends AbstractIkologikInstallationService{
         }
     }
 
-    getByName(customer, installation, name){
+    async getByName(customer, installation, name){
         const search = new Search();
         search.addFilter("name", "EQ", [name]);
         search.addOrder("name", "ASC");
 
         // Query
-        const result = this.search(customer, installation, dataImportType, search);
+        const result = await this.search(customer, installation, dataImportType, search);
         if (result && result.length == 1 ){
             return result[0];
         }else{

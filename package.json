@@ -1,6 +1,6 @@
 {
   "name": "ikologik-api-nodejs",
-  "version": "1.0.14",
+  "version": "1.0.29",
   "description": "",
   "main": "IkologikApi.js",
   "scripts": {

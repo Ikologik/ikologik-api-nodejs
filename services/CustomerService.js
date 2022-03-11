@@ -14,13 +14,13 @@ class CustomerService extends  AbstractIkologikService{
         return `${this.jwtHelper.getUrl()}/api/v2/customer`;
     }
 
-    getByName(customer, installation, name ){
+    async getByName( name ){
         const search = new Search();
         search.addFilter("name", "EQ", [name]);
         search.addOrder("name", "ASC");
 
         // Query
-        const result = this.search(customer, installation, search);
+        const result = await this.search(search);
         if (result && result.length == 1 ){
             return result[0];
         }else{

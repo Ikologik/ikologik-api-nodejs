@@ -45,7 +45,7 @@ class AbstractIkologikInstallationService extends AbstractIkologikCustomerServic
 
     async search(customer, installation, search){
         try{
-            const response = await axios.post(this.getUrl(customer, installation), search, {headers: await this.getHeaders()});
+            const response = await axios.post(`${this.getUrl(customer, installation)}/search`, search, {headers: await this.getHeaders()});
             if (response.status === 200){
                 const result = response.data;
                 return result;

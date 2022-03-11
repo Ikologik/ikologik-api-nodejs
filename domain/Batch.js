@@ -26,5 +26,7 @@ class BatchField {
     }
 }
 
-module.exports = Batch;
-module.exports = BatchField;
+module.exports = {
+    Batch: Batch,
+    BatchField: BatchField
+};

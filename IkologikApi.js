@@ -2,6 +2,7 @@ const IkologikApiCredentials = require("./IkologikApiCredentials");
 const AlertService = require("./services/AlertService");
 const AlertTypeService = require("./services/AlertTypeService");
 const BatchService = require("./services/BatchService");
+const BatchFieldTypeService = require("./services/BatchFieldTypeService");
 const BatchTypeService = require("./services/BatchTypeService");
 const CustomerService = require("./services/CustomerService");
 const DashboardService = require("./services/DashboardService");
@@ -14,6 +15,8 @@ const ReportService = require("./services/ReportService");
 const ReportTypeService = require("./services/ReportTypeService");
 const TagService = require("./services/TagService");
 const TagAlertTypeService = require("./services/TagAlertTypeService");
+const BatchTraceService = require("./services/BatchTraceService");
+
 
 
 class IkologikApi {
@@ -23,6 +26,8 @@ class IkologikApi {
         this.alertType = new AlertTypeService(this.apiCredentials);
         this.batch = new BatchService(this.apiCredentials);
         this.batchType = new BatchTypeService(this.apiCredentials);
+        this.batchTrace = new BatchTraceService(this.apiCredentials);
+        this.batchFieldType = new BatchFieldTypeService(this.apiCredentials);
         this.customer = new CustomerService(this.apiCredentials);
         this.dashboard = new DashboardService(this.apiCredentials);
         this.dashboardWidget = new DashboardWidgetService(this.apiCredentials);

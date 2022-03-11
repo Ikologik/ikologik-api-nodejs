@@ -1,6 +1,8 @@
 const IkologikApiCredentials = require("../IkologikApiCredentials");
 const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
 const Search = require("../domain/Search");
+const axios = require("axios");
+const IkologikException = require("../IkologikException");
 
 const jwtHelper = new IkologikApiCredentials();
 
@@ -14,17 +16,17 @@ class BatchService extends  AbstractIkologikInstallationService{
         return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/batch`;
     }
 
-    getByCode(customer, installation, batchType, code ){
+    async getByCode(customer, installation, batchType, code ){
         const search = new Search();
-        search.addMultipleFilters([("batchType", "EQ", [batchType]), ("code", "EQ", [code])]);
+        search.addMultipleFilters([["batchType", "EQ", [batchType]], ["code", "EQ", [code]]]);
         search.addOrder("batchType", "ASC");
 
         // Query
-        const result = this.search(customer, installation, search);
+        const result = await this.search(customer, installation, search);
         if (result && result.length == 1 ){
             return result[0];
         }else{
-            return null;
+            return new IkologikException("Error while querying a batch by code");
         }
     }
 }
