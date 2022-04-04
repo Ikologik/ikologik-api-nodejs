@@ -18,6 +18,9 @@ const TagAlertTypeService = require("./services/TagAlertTypeService");
 const BatchTraceService = require("./services/BatchTraceService");
 
 class IkologikApi {
+
+	// Constructor
+
 	constructor(url, username, password) {
 		this.apiCredentials = new IkologikApiCredentials(url, username, password);
 		this.alert = new AlertService(this.apiCredentials);
@@ -38,6 +41,13 @@ class IkologikApi {
 		this.tag = new TagService(this.apiCredentials);
 		this.tagAlertType = new TagAlertTypeService(this.apiCredentials);
 	}
+
+	// Actions
+
+	login() {
+		return this.apiCredentials.getJwt();
+	}
+
 }
 
 module.exports = IkologikApi;
