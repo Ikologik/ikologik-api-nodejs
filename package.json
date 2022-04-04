@@ -1,9 +1,18 @@
 {
   "name": "ikologik-api-nodejs",
-  "version": "1.0.032",
-  "description": "",
+  "description": "A Node-RED API for the Ikologik platform.",
+  "author": "Ikologik NV",
+  "version": "1.0.033",
+  "license": "MIT",
+  "homepage": "https://github.com/Ikologik/ikologik-api-nodejs#readme",
+  "bugs": {
+    "url": "https://github.com/Ikologik/ikologik-api-nodejs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ikologik/ikologik-api-nodejs.git"
+  },
   "main": "IkologikApi.js",
-  "scripts": {},
   "keywords": [
     "datalogging",
     "iot",
@@ -14,9 +23,10 @@
     "platform",
     "Ikologik"
   ],
-  "author": "Ikologik NV",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.25.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
   }
 }
