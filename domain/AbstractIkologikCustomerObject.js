@@ -1,10 +1,14 @@
 const AbstractIkologikObject = require("./AbstractIkologikObject");
 
 class AbstractIkologikCustomerObject extends AbstractIkologikObject {
-    constructor(customer){
-        super();
-        this.customer = customer;
-    }
+
+	// Constructor
+
+	constructor(customer) {
+		super();
+		this.customer = customer;
+	}
+
 }
 
 module.exports = AbstractIkologikCustomerObject;

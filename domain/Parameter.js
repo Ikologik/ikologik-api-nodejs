@@ -1,9 +1,12 @@
+class Parameter {
 
-class Parameter{
-    constructor() {
-        this.key = null;
-        this.value = null;
-    }
+	// Constructor
+
+	constructor() {
+		this.key = null;
+		this.value = null;
+	}
+
 }
 
 module.exports = Parameter;
