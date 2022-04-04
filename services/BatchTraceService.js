@@ -1,103 +1,105 @@
-const IkologikApiCredentials = require("../IkologikApiCredentials");
-const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
-const Search = require("../domain/Search");
 const axios = require("axios");
+const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
 const IkologikException = require("../IkologikException");
 
-const jwtHelper = new IkologikApiCredentials();
+class BatchTraceService extends AbstractIkologikInstallationService {
 
-class BatchTraceService extends  AbstractIkologikInstallationService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-    }
+	// Constructor
 
-    // CRUD actions
-    getUrl(customer, installation,batch){
-        return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/batch/${batch}/batchtrace`;
-    }
-    async getById(customer, installation, batch, id ){
-        try{
-            const response = await axios.get(`${this.getUrl(customer, installation, batch)}/${id}`, { headers : await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException(`Error while searching the batchTrace with id ${id}`);
-        }
-    }
+	constructor(jwtHelper) {
+		super(jwtHelper);
+	}
 
-    async list(customer, installation, batch){
-        try{
-            const response = await axios.get(this.getUrl(customer, installation, batch), { headers : await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while listing  the batchTrace");
-        }
-    }
+	// Actions
 
-    async search(customer, installation, batch, search){
-        try{
-            const response = await axios.post(`${this.getUrl(customer, installation, batch)}/search`, search, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while searching for a batchTrace");
-        }
-    }
+	getUrlByCustomerAndInstallationAndBatch(customer, installation, batch) {
+		return `${this.jwtHelper.url}/api/v2/customer/${customer}/installation/${installation}/batch/${batch}/batchtrace`;
+	}
 
-    async create(customer, installation, batch, obj){
-        try{
-            const response = await axios.post(this.getUrl(customer, installation, batch), obj, {headers: await this.getHeaders()});
-            if (response.status === 201){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (error) {
-            return new IkologikException("Error while creating a batchTrace");
-        }
-    }
+	async getByCustomerAndInstallationAndBatchAndId(customer, installation, batch, id) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndBatch(customer, installation, batch)}/${id}`;
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while getting by customer, installation, batch and id");
+		}
+	}
 
-    async update(customer, installation, batch, id, obj){
-        try{
-            const response = await axios.put(`${this.getUrl(customer, installation, batch)}/${id}`, obj, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException(`Error while updating a batchTrace with id: ${id}`);
-        }
-    }
+	async listByCustomerAndInstallationAndBatch(customer, installation, batch) {
+		try {
+			const url = this.getUrlByCustomerAndInstallationAndBatch(customer, installation, batch);
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while listing by customer, installation and batch");
+		}
+	}
 
-    async delete(customer,installation, batch, id){
-        try{
-            const response = await axios.delete(`${this.getUrl(customer, installation, batch)}/${id}`,  {headers: await this.getHeaders()});
-            if (response.status === 204){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while deleting a batchTypefield");
-        }
-    }
+	async searchByCustomerAndInstallationAndBatch(customer, installation, batch, search) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndBatch(customer, installation, batch)}/search`;
+			const response = await axios.post(url, search, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while searching by customer, installation and batch");
+		}
+	}
+
+	async createByCustomerAndInstallationAndBatch(customer, installation, batch, obj) {
+		try {
+			const url = this.getUrlByCustomerAndInstallationAndBatch(customer, installation, batch);
+			const response = await axios.post(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 201) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while creating by customer, installation and batch");
+		}
+	}
+
+	async updateByCustomerAndInstallationAndBatchAndId(customer, installation, batch, id, obj) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndBatch(customer, installation, batch)}/${id}`;
+			const response = await axios.put(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating by customer, installation and batch");
+		}
+	}
+
+	async deleteByCustomerAndInstallationAndBatchAndId(customer, installation, batch, id) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndBatch(customer, installation, batch)}/${id}`;
+			const response = await axios.delete(url, {headers: await this.getHeaders()});
+			if (response.status === 204) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while deleting by customer, installation, batch and id");
+		}
+	}
+
 }
 
 module.exports = BatchTraceService;

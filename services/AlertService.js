@@ -1,18 +1,19 @@
-const IkologikApiCredentials = require("../IkologikApiCredentials");
 const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
 
+class AlertService extends AbstractIkologikInstallationService {
 
-const jwtHelper = new IkologikApiCredentials();
+	// Constructor
 
-class AlertService extends  AbstractIkologikInstallationService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-    }
+	constructor(jwtHelper) {
+		super(jwtHelper);
+	}
 
-    // CRUD actions
-    getUrl(customer, installation){
-        return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/alert`;
-    }
+	// Actions
+
+	getUrlByCustomerAndInstallation(customer, installation) {
+		return `${this.jwtHelper.url}/api/v2/customer/${customer}/installation/${installation}/alert`;
+	}
+
 }
 
 module.exports = AlertService;

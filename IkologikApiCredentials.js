@@ -1,72 +1,58 @@
+const https = require('https');
 const axios = require('axios');
 const IkologikException = require('./IkologikException');
-const https = require('https');
 
 class IkologikApiCredentials {
-     // jwt;
 
-    constructor( url, username, password) {
-        this.url = url;
-        this.username = username;
-        this.password = password
-        this.jwt = null;
-        this.jwtExpirationDate = null;
-    }
+	// Constructor
 
-    getUrl (){
-        return this.url;
-    }
+	constructor(url, username, password) {
+		this.url = url;
+		this.username = username;
+		this.password = password
+		this.jwt = null;
+		this.jwtExpirationDate = null;
+	}
 
-    getUsername (){
-        return this.username;
-    }
+	// Actions
 
-    getPassword() {
-        return this.password;
-    }
+	async getJwt() {
+		try {
+			if (this.jwt === null || this.jwtExpirationDate < (new Date().getTime() * 1000)) {
+				// Prepare the headers
+				const headers = {
+					'Content-Type': 'application/json'
+				}
 
-    async getJwt() {
-        try {
-            if (this.jwt == null || this.jwtExpirationDate < (new Date().getTime() * 1000)) {
+				// Prepare the data
+				const data = {
+					'username': this.username, 'password': this.password
+				};
 
-                // Prepare the headers
-                const headers = {
-                    'Content-Type': 'application/json'
-                }
+				// Selectively ignore SSL when AXIOS requests
+				const agent = new https.Agent({
+					rejectUnauthorized: false
+				});
 
-                // Prepare the data
-                const data = {
-                    'username': this.username,
-                    'password': this.password
-                };
+				// Execute
+				const url = `${this.url}/api/v2/auth/login`;
+				const response = await axios.post(url, data, {headers: headers, httpsAgent: agent})
+				if (response.status === 200) {
+					const result = response.data;
+					this.jwt = result.accessToken;
+					this.jwtExpirationDate = result.expiresAt;
+					return this.jwt;
+				} else {
+					throw new IkologikException("Request returned status " + toString(response.status));
+				}
+			} else {
+				return this.jwt;
+			}
+		} catch {
+			throw new IkologikException("Error while getting jwt token");
+		}
+	}
 
-                const ignoreSSL = axios.create({
-                    httpsAgent: new https.Agent({
-                        rejectUnauthorized: false
-                    })
-                });
-
-                // Selectively ignore SSL when AXIOS requests
-                const agent = new https.Agent({
-                    rejectUnauthorized: false
-                });
-                // Execute
-                const response = await axios.post(`${this.url}/api/v2/auth/login`, data, {headers: headers, httpsAgent:agent})
-                if (response.status === 200){
-                    const result = response.data;
-                    this.jwt = result.accessToken;
-                    this.jwtExpirationDate = result.expiresAt;
-                    return this.jwt;
-                }else{
-                    return new IkologikException("Request returned status" + toString(await response.status));
-                }
-            }else{
-                return this.jwt;
-            }
-        }catch{
-            return new IkologikException("Error while getting jwt token");
-        }
-    }
 }
 
 module.exports = IkologikApiCredentials;

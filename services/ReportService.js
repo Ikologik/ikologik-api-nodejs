@@ -1,75 +1,147 @@
-const IkologikApiCredentials = require("../IkologikApiCredentials");
 const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
-const IkologikException = require("../IkologikException");
 const axios = require("axios");
+const IkologikException = require("../IkologikException");
 
-const jwtHelper = new IkologikApiCredentials();
+class ReportService extends AbstractIkologikInstallationService {
 
-class ReportService extends  AbstractIkologikInstallationService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-    }
+	// Constructor
 
-    // CRUD actions
-    getUrl(customer, installation, reportType){
-        return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/report`;
-    }
+	constructor(jwtHelper) {
+		super(jwtHelper);
+	}
 
-    async create(customer, installation, reportType, obj){
-        try{
-            const response = await axios.post(this.getUrl(customer, installation, reportType), obj, {headers: await this.getHeaders()});
-            if (response.status === 201){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (error) {
-            return new IkologikException("Error while creating a report");
-        }
-    }
+	// Actions
 
-    async build(customer, installation, reportType){
-        try{
-            const response = await axios.get(`${this.getUrl(customer, installation, reportType)}/build`, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (error) {
-            return new IkologikException("Error while creating a report");
-        }
-    }
+	getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType) {
+		return `${this.jwtHelper.url}/api/v2/customer/${customer}/installation/${installation}/reporttype/${reportType}/report`;
+	}
 
-    async updateStatus(customer,installation, reportType, ReportId, status){
-        try{
-            const response = await axios.put(this.getUrl(customer, installation, reportType)+`/${ReportId}/status`, {status}, {headers: await this.getHeaders({'Content-Type': 'text/plain'})});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while getting the update status for report with id: " +id);
-        }
-    }
+	async getByCustomerAndInstallationAndReportTypeAndId(customer, installation, reportType, id) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType)}/${id}`;
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while getting by customer, installation, report type and id");
+		}
+	}
 
-    async upload(customer, installation, reportType, ReportId){
-        try{
-            const response = await axios.get(`${this.getUrl(customer, installation, reportType)}/${ReportId}/upload`, {data}, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while uploading a report");
-        }
-    }
+	async listByCustomerAndInstallationAndReportType(customer, installation, reportType) {
+		try {
+			const url = this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType);
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while listing by customer, installation and report type");
+		}
+	}
+
+	async searchByCustomerAndInstallationAndReportType(customer, installation, reportType, search) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType)}/search`;
+			const response = await axios.post(url, search, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while searching by customer, installation and report type");
+		}
+	}
+
+	async buildByCustomerAndInstallationAndReportType(customer, installation, reportType) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType)}/build`;
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating by customer, installation, report type and id");
+		}
+	}
+
+	async createByCustomerAndInstallationAndReportType(customer, installation, reportType, obj) {
+		try {
+			const url = this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType);
+			const response = await axios.post(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 201) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while creating by customer, installation and report type");
+		}
+	}
+
+	async updateByCustomerAndInstallationAndReportTypeAndId(customer, installation, reportType, id, obj) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType)}/${id}`;
+			const response = await axios.post(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating by customer, installation, report type and id");
+		}
+	}
+
+	async deleteByCustomerAndInstallationAndReportTypeAndId(customer, installation, id) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType)}/${id}`;
+			const response = await axios.delete(url, {headers: await this.getHeaders()});
+			if (response.status === 204) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while deleting by customer, installation, report type and id");
+		}
+	}
+
+	async updateStatusByCustomerAndInstallationAndReportTypeAndId(customer, installation, reportType, id, status) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType)}/${id}/status`;
+			const response = await axios.put(url, status, {headers: await this.getHeaders({'Content-Type': 'text/plain'})});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating status by customer, installation, report type and id");
+		}
+	}
+
+	async uploadByCustomerAndInstallationAndReportTypeAndId(customer, installation, reportType, id) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndReportType(customer, installation, reportType)}/${id}/upload`;
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while uploading by customer, installation, report type and id");
+		}
+	}
+
 }
 
 module.exports = ReportService;

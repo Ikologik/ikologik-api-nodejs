@@ -1,103 +1,105 @@
-const AbstractIkologikCustomerService = require("./AbstractIkologikCustomerService");
-const IkologikApiCredentials = require("../IkologikApiCredentials");
-const IkologikException = require("../IkologikException");
 const axios = require("axios");
+const AbstractIkologikCustomerService = require("./AbstractIkologikCustomerService");
+const IkologikException = require("../IkologikException");
 
+class AbstractIkologikInstallationService extends AbstractIkologikCustomerService {
 
-const jwtHelper = new IkologikApiCredentials();
+	// Constructor
 
-class AbstractIkologikInstallationService extends AbstractIkologikCustomerService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-        this.jwtHelper = jwtHelper;
-    }
+	constructor(jwtHelper) {
+		super(jwtHelper);
+		this.jwtHelper = jwtHelper;
+	}
 
-    // Crud actions
-    getUrl(customer, installation){}
+	// Actions
 
-    async getById(customer,installation, id){
-        try{
-            const response = await axios.get(this.getUrl(customer, installation)+`/${id}`, { headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while getting installation with id: " +id);
-        }
-    }
+	getUrlByCustomerAndInstallation(customer, installation) {
+	}
 
-    async list(customer, installation){
-        try{
-            const response = await axios.get(this.getUrl(customer, installation), { headers : await this.getHeaders()})
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while querying a list");
-        }
-    }
+	async getByCustomerAndInstallationAndId(customer, installation, id) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallation(customer, installation)}/${id}`;
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while getting by customer, installation and id");
+		}
+	}
 
-    async search(customer, installation, search){
-        try{
-            const response = await axios.post(`${this.getUrl(customer, installation)}/search`, search, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while searching for an installation");
-        }
-    }
+	async listByCustomerAndInstallation(customer, installation) {
+		try {
+			const url = this.getUrlByCustomerAndInstallation(customer, installation);
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while listing by customer and installation");
+		}
+	}
 
-    async create(customer, installation, obj){
-        try{
-            const response = await axios.post(this.getUrl(customer, installation), obj, {headers: await this.getHeaders()});
-            if (response.status === 201){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while creating an installation");
-        }
-    }
+	async searchByCustomerAndInstallation(customer, installation, search) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallation(customer, installation)}/search`;
+			const response = await axios.post(url, search, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while searching by customer and installation");
+		}
+	}
 
-    async update(customer, installation, id, obj){
-        try{
-            const response = await axios.put(`${this.getUrl(customer, installation)}/${id}`, obj, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while updating an installation");
-        }
-    }
+	async createByCustomerAndInstallation(customer, installation, obj) {
+		try {
+			const url = this.getUrlByCustomerAndInstallation(customer, installation);
+			const response = await axios.post(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 201) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while creating by customer and installation");
+		}
+	}
 
-    async delete(customer,installation, id){
-        try{
-            const response = await axios.delete(`${this.getUrl(customer, installation)}/${id}`,  {headers: await this.getHeaders()});
-            if (response.status === 204){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while deleting an installation");
-        }
-    }
+	async updateByCustomerAndInstallationAndId(customer, installation, id, obj) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallation(customer, installation)}/${id}`;
+			const response = await axios.put(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating by customer, installation and id");
+		}
+	}
+
+	async deleteByCustomerAndInstallationAndId(customer, installation, id) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallation(customer, installation)}/${id}`;
+			const response = await axios.delete(url, {headers: await this.getHeaders()});
+			if (response.status === 204) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while deleting by customer, installation and id");
+		}
+	}
+
 }
 
 module.exports = AbstractIkologikInstallationService;

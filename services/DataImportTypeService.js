@@ -1,32 +1,35 @@
-const IkologikApiCredentials = require("../IkologikApiCredentials");
 const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
 const Search = require("../domain/Search");
 
-const jwtHelper = new IkologikApiCredentials();
+class DataImportTypeService extends AbstractIkologikInstallationService {
 
-class DataImportTypeService extends AbstractIkologikInstallationService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-    }
+	// Constructor
 
-    // Crud actions
-    getUrl(customer, installation, dataImportType){
-        return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/dataimporttype`;
-    }
+	constructor(jwtHelper) {
+		super(jwtHelper);
+	}
 
-    async getByName(customer, installation, name){
-        const search = new Search();
-        search.addFilter("name", "EQ", [name]);
-        search.addOrder("name", "ASC");
+	// Actions
 
-        // Query
-        const result = await this.search(customer, installation, search);
-        if (result && result.length == 1 ){
-            return result[0];
-        }else{
-            return null;
-        }
-    }
+	getUrlByCustomerAndInstallation(customer, installation) {
+		return `${this.jwtHelper.url}/api/v2/customer/${customer}/installation/${installation}/dataimporttype`;
+	}
+
+	async getByCustomerAndInstallationAndName(customer, installation, name) {
+		// Prepare filter
+		const search = new Search();
+		search.addFilter("name", "EQ", [name]);
+		search.addOrder("name", "ASC");
+
+		// Query
+		const result = await this.searchByCustomerAndInstallation(customer, installation, search);
+		if (result && result.length === 1) {
+			return result[0];
+		} else {
+			return null;
+		}
+	}
+
 }
 
 module.exports = DataImportTypeService;

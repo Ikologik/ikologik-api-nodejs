@@ -1,32 +1,35 @@
-const IkologikApiCredentials = require("../IkologikApiCredentials");
-const Search = require("../domain/Search");
 const AbstractIkologikService = require("./AbstractIkologikService");
+const Search = require("../domain/Search");
 
-const jwtHelper = new IkologikApiCredentials();
+class CustomerService extends AbstractIkologikService {
 
-class CustomerService extends  AbstractIkologikService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-    }
+	// Constructor
 
-    // CRUD actions
-    getUrl(){
-        return `${this.jwtHelper.getUrl()}/api/v2/customer`;
-    }
+	constructor(jwtHelper) {
+		super(jwtHelper);
+	}
 
-    async getByName( name ){
-        const search = new Search();
-        search.addFilter("name", "EQ", [name]);
-        search.addOrder("name", "ASC");
+	// Actions
 
-        // Query
-        const result = await this.search(search);
-        if (result && result.length == 1 ){
-            return result[0];
-        }else{
-            return null;
-        }
-    }
+	getUrl() {
+		return `${this.jwtHelper.url}/api/v2/customer`;
+	}
+
+	async getByName(name) {
+		// Prepare filter
+		const search = new Search();
+		search.addFilter("name", "EQ", [name]);
+		search.addOrder("name", "ASC");
+
+		// Query
+		const result = await this.search(search);
+		if (result && result.length === 1) {
+			return result[0];
+		} else {
+			return null;
+		}
+	}
+
 }
 
 module.exports = CustomerService;

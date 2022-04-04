@@ -1,90 +1,92 @@
-const IkologikApiCredentials = require("../IkologikApiCredentials");
 const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
-const IkologikException = require("../IkologikException");
 const axios = require("axios");
+const IkologikException = require("../IkologikException");
 
-const jwtHelper = new IkologikApiCredentials();
+class DashboardWidgetService extends AbstractIkologikInstallationService {
 
- class DashboardWidgetService extends AbstractIkologikInstallationService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-        this.jwtHelper = jwtHelper;
-    }
+	// Constructor
 
-    // Crud actions
-    getUrl(customer, installation, dashboard){
-        return `${this.jwtHelper.getUrl()}/api/v2/customer/${customer}/installation/${installation}/dashboard/${dashboard}/widget`;
-    }
+	constructor(jwtHelper) {
+		super(jwtHelper);
+		this.jwtHelper = jwtHelper;
+	}
 
-    async list(customer, installation, dashboard){
-        try{
-            const response = await axios.get(`${this.getUrl(customer, installation, dashboard)}/search`, { headers : await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while listing  the dashboardwidget");
-        }
-    }
+	// Actions
 
-    async search(customer, installation, dashboard, search){
-        try{
-            const response = await axios.post(`${this.getUrl(customer, installation, dashboard)}/search`, search, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while searching for a dashboardwidget");
-        }
-    }
+	getUrlByCustomerAndInstallationAndDashboard(customer, installation, dashboard) {
+		return `${this.jwtHelper.url}/api/v2/customer/${customer}/installation/${installation}/dashboard/${dashboard}/widget`;
+	}
 
-    async create(customer, installation, dashboard, obj){
-        try{
-            const response = await axios.post(this.getUrl(customer, installation, dashboard), obj, {headers: await this.getHeaders()});
-            if (response.status === 201){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (error) {
-            return new IkologikException("Error while creating a dashboardwidget");
-        }
-    }
+	async list(customer, installation, dashboard) {
+		try {
+			const url = this.getUrlByCustomerAndInstallationAndDashboard(customer, installation, dashboard);
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while listing by customer, installation and dashboard");
+		}
+	}
 
-    async update(customer, installation, dashboard, obj){
-        try{
-            const response = await axios.put(`${this.getUrl(customer, installation, dashboard)}/${obj.id}`, obj, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while updating a dashboardwidget");
-        }
-    }
+	async search(customer, installation, dashboard, search) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndDashboard(customer, installation, dashboard)}/search`;
+			const response = await axios.post(url, search, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while searching by customer, installation and dashboard");
+		}
+	}
 
-    async delete(customer,installation, dashboard, id){
-        try{
-            const response = await axios.delete(`${this.getUrl(customer, installation, dashboard)}/${id}`,  {headers: await this.getHeaders()});
-            if (response.status === 204){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while deleting a dashboardwidget");
-        }
-    }
+	async create(customer, installation, dashboard, obj) {
+		try {
+			const url = this.getUrlByCustomerAndInstallationAndDashboard(customer, installation, dashboard);
+			const response = await axios.post(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 201) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while creating by customer, installation and dashboard");
+		}
+	}
+
+	async update(customer, installation, dashboard, id, obj) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndDashboard(customer, installation, dashboard)}/${id}`;
+			const response = await axios.put(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating by customer, installation, dashboard and id");
+		}
+	}
+
+	async delete(customer, installation, dashboard, id) {
+		try {
+			const url = `${this.getUrlByCustomerAndInstallationAndDashboard(customer, installation, dashboard)}/${id}`;
+			const response = await axios.delete(url, {headers: await this.getHeaders()});
+			if (response.status === 204) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while deleting by customer, installation, dashboard and id");
+		}
+	}
+
 }
 
 module.exports = DashboardWidgetService;

@@ -1,48 +1,88 @@
-const IkologikApiCredentials = require("../IkologikApiCredentials");
-const AbstractIkologikService = require("./AbstractIkologikService");
+const AbstractIkologikCustomerService = require("./AbstractIkologikCustomerService");
 const Search = require("../domain/Search");
 
-const jwtHelper = new IkologikApiCredentials();
+class DashboardWidgetTypeService extends AbstractIkologikCustomerService {
 
-class DashboardWidgetTypeService extends  AbstractIkologikService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-    }
+	// Constructor
 
-    // CRUD actions
-    getUrl(){
-        return `${this.jwtHelper.getUrl()}/api/v2/dashboardwidgettype`;
-    }
+	constructor(jwtHelper) {
+		super(jwtHelper);
+	}
 
-    async getByName(name){
-        const search = new Search();
-        search.addFilter("name", "EQ", [name]);
-        search.addOrder("name", "ASC");
-        search.setPagination(0,1);
+	// Actions
 
-        // Query
-        const result = await this.search(search);
-        if (result && result.length == 1 ){
-            return result[0];
-        }else{
-            return null;
-        }
-    }
+	getUrl() {
+		return `${this.jwtHelper.url}/api/v2/dashboardwidgettype`;
+	}
 
-    async getByType(type){
-        const search = new Search();
-        search.addFilter("name", "EQ", [type]);
-        search.addOrder("name", "ASC");
-        search.setPagination(0,1);
+	getUrlByCustomer(customer) {
+		return `${this.jwtHelper.url}/api/v2/customer/${customer}/dashboardwidgettype`;
+	}
 
-        // Query
-        const result = await this.search(search);
-        if (result && result.length == 1 ){
-            return result[0];
-        }else{
-            return null;
-        }
-    }
+	async getByName(name) {
+		// Prepare filter
+		const search = new Search();
+		search.addFilter("name", "EQ", [name]);
+		search.addOrder("name", "ASC");
+		search.setPagination(0, 1);
+
+		// Query
+		const result = await this.search(search);
+		if (result && result.length === 1) {
+			return result[0];
+		} else {
+			return null;
+		}
+	}
+
+	async getByCustomerAndName(customer, name) {
+		// Prepare filter
+		const search = new Search();
+		search.addFilter("name", "EQ", [name]);
+		search.addOrder("name", "ASC");
+		search.setPagination(0, 1);
+
+		// Query
+		const result = await this.searchByCustomer(customer, search);
+		if (result && result.length === 1) {
+			return result[0];
+		} else {
+			return null;
+		}
+	}
+
+	async getByType(type) {
+		// Prepare filter
+		const search = new Search();
+		search.addFilter("name", "EQ", [type]);
+		search.addOrder("name", "ASC");
+		search.setPagination(0, 1);
+
+		// Query
+		const result = await this.search(search);
+		if (result && result.length === 1) {
+			return result[0];
+		} else {
+			return null;
+		}
+	}
+
+	async getByCustomerAndType(customer, type) {
+		// Prepare filter
+		const search = new Search();
+		search.addFilter("name", "EQ", [type]);
+		search.addOrder("name", "ASC");
+		search.setPagination(0, 1);
+
+		// Query
+		const result = await this.searchByCustomer(customer, search);
+		if (result && result.length === 1) {
+			return result[0];
+		} else {
+			return null;
+		}
+	}
+
 }
 
 module.exports = DashboardWidgetTypeService;

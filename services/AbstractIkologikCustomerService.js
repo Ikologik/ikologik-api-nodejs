@@ -1,117 +1,105 @@
 const axios = require('axios');
-const IkologikApiCredentials = require("../IkologikApiCredentials");
 const AbstractIkologikService = require("./AbstractIkologikService");
 const IkologikException = require("../IkologikException");
 
-const jwtHelper = new IkologikApiCredentials();
+class AbstractIkologikCustomerService extends AbstractIkologikService {
 
-class AbstractIkologikCustomerService extends AbstractIkologikService{
-    constructor(jwtHelper) {
-        super(jwtHelper);
-        this.jwtHelper = jwtHelper;
-    }
+	// Constructor
 
-    // Crud actions
-    getUrl(customer){}
+	constructor(jwtHelper) {
+		super(jwtHelper);
+		this.jwtHelper = jwtHelper;
+	}
 
-    async getById(customer, id){
-        try{
-            const response = await axios.get(this.getUrl(customer)+`/${id}`, { headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while getting customer with id: " +id);
-        }
-    }
-    async list(customer) {
-        try {
-            const response = await axios.get(this.getUrl(customer), {headers: await this.getHeaders()});
-            if (response.status === 200) {
-                const result = response.data;
-                return result;
-            } else {
-                return new IkologikException("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while listing customer");
-        }
-    }
-    // list(customer) {
-    //     return new Promise((resolve, reject) => {
-    //         this.getHeaders()
-    //             .then((headers) => {
-    //                 axios.get(this.getUrl(customer), {headers})
-    //                     .then((response) => {
-    //                         if (response.status === 200) {
-    //                             resolve(response.data);
-    //                         } else {
-    //                             reject('Request returned status' + toString(response.status));
-    //                         }
-    //                     }).catch(reject);
-    //             }).catch(reject);
-    //     });
-    // }
+	// Actions
 
+	getUrlByCustomer(customer) {
+	}
 
-    async search(customer, search){
-        try{
-            const response = axios.post(this.getUrl(customer), search, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while searching for a customer");
-        }
-    }
+	async getByCustomerAndId(customer, id) {
+		try {
+			const url = `${this.getUrlByCustomer(customer)}/${id}`;
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while getting by customer and id");
+		}
+	}
 
-    async create(customer, obj){
-        try{
-            const response = await axios.post(this.getUrl(customer), obj, {headers: await this.getHeaders()});
-            if (response.status === 201){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (error) {
-            return new IkologikException("Error while creating a customer");
-        }
-    }
+	async listByCustomer(customer) {
+		try {
+			const url = this.getUrlByCustomer(customer);
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while listing by customer");
+		}
+	}
 
-    async update(customer, id, obj){
-        try{
-            const response = await axios.put(`${this.getUrl(customer)}/${id}`, obj, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while updating a customer");
-        }
-    }
+	async searchByCustomer(customer, search) {
+		try {
+			const url = `${this.getUrlByCustomer(customer)}/search`;
+			const response = await axios.post(url, search, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while searching by customer");
+		}
+	}
 
-    async delete(customer, id){
-        try{
-            const response = await axios.delete(`${this.getUrl(customer)}/${id}`,  {headers: await this.getHeaders()});
-            if (response.status === 204){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while deleting a customer");
-        }
-    }
+	async createByCustomer(customer, obj) {
+		try {
+			const url = this.getUrlByCustomer(customer);
+			const response = await axios.post(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 201) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while creating by customer");
+		}
+	}
+
+	async updateByCustomerAndId(customer, id, obj) {
+		try {
+			const url = `${this.getUrlByCustomer(customer)}/${id}`;
+			const response = await axios.put(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating by customer and id");
+		}
+	}
+
+	async deleteByCustomerAndId(customer, id) {
+		try {
+			const url = `${this.getUrlByCustomer(customer)}/${id}`;
+			const response = await axios.delete(url, {headers: await this.getHeaders()});
+			if (response.status === 204) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while deleting by customer and id");
+		}
+	}
+
 }
 
 module.exports = AbstractIkologikCustomerService;

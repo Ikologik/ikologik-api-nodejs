@@ -1,141 +1,112 @@
 const axios = require('axios');
 const IkologikException = require("../IkologikException");
-const IkologikApiCredentials = require("../IkologikApiCredentials");
 
-const jwtHelper = new IkologikApiCredentials();
+class AbstractIkologikService {
 
-class AbstractIkologikService{
-    constructor(jwtHelper) {
-        this.jwtHelper = jwtHelper;
-    }
+	// Constructor
 
-    // Crud actions
-    async getHeaders(default_headers=null) {
-        let headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${await this.jwtHelper.getJwt()}`
-        }
-        if (default_headers !== null) {
-            headers = {...headers, ...default_headers};
-        }
-        return headers;
-    }
-    // getHeaders(default_headers=null){
-    //     return new Promise ((resolve, reject) => {
-    //         this.jwtHelper.getJwt()
-    //             .then((jwt) => {
-    //                 let headers = {
-    //                     'Content-Type': 'application/json',
-    //                     'Authorization': `Bearer ${jwt}`
-    //                 }
-    //                 if (default_headers !== null){
-    //                     headers = {...headers, ...default_headers};
-    //                 }
-    //                 resolve(headers);
-    //             }).catch(reject);
-    //     });
-    // }
-    getUrl(){}
+	constructor(jwtHelper) {
+		this.jwtHelper = jwtHelper;
+	}
 
-    async getById(id){
-        try{
-            const response = await axios.get(this.getUrl()+`/${id}`, { headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else {
-                return new IkologikException("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while getting by id");
-        }
-    }
+	// Actions
 
-    async list() {
-        try{
-            const response = await axios.get(this.getUrl(), { headers : await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        } catch (e) {
-            return new IkologikException("Error while querying a list");
-        }
-    }
-    // list() {
-    //     return new Promise((resolve, reject) => {
-    //         this.getHeaders()
-    //             .then((headers) => {
-    //                 axios.get(this.getUrl(), {headers})
-    //                     .then((response) => {
-    //                         if (response.status === 200) {
-    //                             resolve(response.data);
-    //                         } else {
-    //                             reject('Request returned status' + toString(response.status));
-    //                         }
-    //                     }).catch(reject);
-    //             }).catch(reject);
-    //     });
-    // }
+	async getHeaders(default_headers = null) {
+		let headers = {
+			'Content-Type': 'application/json', 'Authorization': `Bearer ${await this.jwtHelper.getJwt()}`
+		}
+		if (default_headers !== null) {
+			headers = {...headers, ...default_headers};
+		}
+		return headers;
+	}
 
-    async search(search){
-        try{
-            const response = await axios.post(this.getUrl(), search, {headers: await this.getHeaders()})
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while searching");
-        }
-    }
+	getUrl() {
+	}
 
-    async create(obj){
-        try{
-            const response = await axios.post(this.getUrl(), obj, {headers: await this.getHeaders()});
-            if (response.status === 201){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (error) {
-            return new IkologikException("Error while creating");
-        }
-    }
+	async getById(id) {
+		try {
+			const url = `${this.getUrl()}/${id}`;
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while getting by id");
+		}
+	}
 
-    async update(id, obj){
-        try{
-            const response = await axios.put(this.getUrl()+`/${id}`, obj, {headers: await this.getHeaders()});
-            if (response.status === 200){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while updating");
-        }
-    }
+	async list() {
+		try {
+			const url = this.getUrl();
+			const response = await axios.get(url, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while listing");
+		}
+	}
 
-    async delete(id){
-        try{
-            const response = await axios.delete(`${this.getUrl()}/${id}`,  {headers: await this.getHeaders()});
-            if (response.status === 204){
-                const result = response.data;
-                return result;
-            } else{
-                return new IkologikException ("Request returned status" + toString(response.status));
-            }
-        }catch (e) {
-            return new IkologikException("Error while deleting");
-        }
-    }
+	async search(search) {
+		try {
+			const url = `${this.getUrl()}/search`;
+			const response = await axios.post(url, search, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while searching");
+		}
+	}
 
+	async create(obj) {
+		try {
+			const url = this.getUrl();
+			const response = await axios.post(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 201) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while creating");
+		}
+	}
+
+	async updateById(id, obj) {
+		try {
+			const url = `${this.getUrl()}/${id}`;
+			const response = await axios.put(url, obj, {headers: await this.getHeaders()});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating by id");
+		}
+	}
+
+	async deleteById(id) {
+		try {
+			const url = `${this.getUrl()}/${id}`;
+			const response = await axios.delete(url, {headers: await this.getHeaders()});
+			if (response.status === 204) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status " + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while deleting by id");
+		}
+	}
 
 }
 
