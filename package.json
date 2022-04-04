@@ -1,16 +1,22 @@
 {
   "name": "ikologik-api-nodejs",
-  "version": "1.0.031",
+  "version": "1.0.032",
   "description": "",
   "main": "IkologikApi.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
+  "scripts": {},
+  "keywords": [
+    "datalogging",
+    "iot",
+    "iiot",
+    "nodejs",
+    "REST",
+    "api",
+    "platform",
+    "Ikologik"
+  ],
+  "author": "Ikologik NV",
   "license": "MIT",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.49.0",
     "axios": "^0.25.0"
   }
 }
