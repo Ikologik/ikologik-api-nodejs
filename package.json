@@ -1,8 +1,8 @@
 {
   "name": "ikologik-api-nodejs",
-  "description": "A Node-RED API for the Ikologik platform.",
+  "description": "A Node.js API for the Ikologik platform.",
   "author": "Ikologik NV",
-  "version": "1.0.033",
+  "version": "1.0.034",
   "license": "MIT",
   "homepage": "https://github.com/Ikologik/ikologik-api-nodejs#readme",
   "bugs": {
