@@ -1,5 +1,6 @@
 const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
 const Search = require("../domain/Search");
+const axios = require("axios");
 
 class BatchService extends AbstractIkologikInstallationService {
 
@@ -30,6 +31,19 @@ class BatchService extends AbstractIkologikInstallationService {
 		}
 	}
 
+	async updateStatusByCustomerAndInstallationAndAndBatch(customer, installation, batch, status){
+		try{
+			const url = `${this.getUrlByCustomerAndInstallation(customer, installation)}/${batch}/status`;
+			const response = await axios.put(url, status, {headers: await this.getHeaders({'Content-Type': 'text/plain'})});
+			if (response.status === 200) {
+				return response.data;
+			} else {
+				throw new IkologikException("Request returned status" + toString(response.status));
+			}
+		} catch (e) {
+			throw new IkologikException("Error while updating the status of batch wit id" + batch);
+		}
+	}
 }
 
 module.exports = BatchService;
