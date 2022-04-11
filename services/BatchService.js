@@ -32,8 +32,8 @@ class BatchService extends AbstractIkologikInstallationService {
 		}
 	}
 
-	async updateStatusByCustomerAndInstallationAndId(customer, installation, batch, status){
-		try{
+	async updateStatusByCustomerAndInstallationAndId(customer, installation, batch, status) {
+		try {
 			const url = `${this.getUrlByCustomerAndInstallation(customer, installation)}/${batch}/status`;
 			const response = await axios.put(url, status, {headers: await this.getHeaders({'Content-Type': 'text/plain'})});
 			if (response.status === 200) {
