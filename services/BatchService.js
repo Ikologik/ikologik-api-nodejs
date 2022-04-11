@@ -1,6 +1,7 @@
 const AbstractIkologikInstallationService = require("./AbstractIkologikInstallationService");
 const Search = require("../domain/Search");
 const axios = require("axios");
+const IkologikException = require("../IkologikException");
 
 class BatchService extends AbstractIkologikInstallationService {
 
@@ -41,9 +42,10 @@ class BatchService extends AbstractIkologikInstallationService {
 				throw new IkologikException("Request returned status" + toString(response.status));
 			}
 		} catch (e) {
-			throw new IkologikException("Error while updating the status of batch wit id" + batch);
+			throw new IkologikException("Error while updating the status of batch with id" + batch);
 		}
 	}
+
 }
 
 module.exports = BatchService;
