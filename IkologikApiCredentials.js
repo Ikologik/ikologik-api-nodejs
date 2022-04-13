@@ -18,7 +18,7 @@ class IkologikApiCredentials {
 
 	async getJwt() {
 		try {
-			if (this.jwt === null || this.jwtExpirationDate < (new Date().getTime() * 1000)) {
+			if (this.jwt === null || this.jwtExpirationDate < new Date().getTime()) {
 				// Prepare the headers
 				const headers = {
 					'Content-Type': 'application/json'
